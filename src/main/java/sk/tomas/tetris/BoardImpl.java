@@ -23,13 +23,16 @@ public class BoardImpl implements Board {
         board = new int[boardWidth][boardHeight];
         pieces = new Pieces();
         spawnPiece();
-        System.out.println(spawnedPiece.getType());
     }
 
-    private void spawnPiece() {
+    private boolean spawnPiece() {
         spawnedPiece = pieces.getRandom();
         //x axis, y axis, rotation
         spawnedLocation = new Integer[]{invisibleHeight - 1, (boardWidth / 2) - (spawnedPiece.getPiece().get(0).length / 2), 0};
+        if (calculateNewPosition(spawnedLocation, false) == State.BLOCKED) {
+            return false;
+        }
+        return true;
     }
 
     private Integer[] clone(Integer[] input) {
@@ -39,7 +42,7 @@ public class BoardImpl implements Board {
     }
 
     @Override
-    public void move(Input input) {
+    public boolean move(Input input) {
         State state;
         Integer[] clone;
         switch (input) {
@@ -57,6 +60,7 @@ public class BoardImpl implements Board {
                 clone = clone(spawnedLocation);
                 clone[2]++;
                 state = calculateNewPosition(clone, false);
+                score -= 2;
                 break;
             case DOWN:
             default:
@@ -68,9 +72,8 @@ public class BoardImpl implements Board {
 
         switch (state) {
             case DOWN:
-                addToBoard(calculateNewPosition(spawnedLocation));
                 score += 10;
-                break;
+                return addToBoard(calculateNewPosition(spawnedLocation));
             case BLOCKED:
                 //do nothing
                 break;
@@ -80,6 +83,7 @@ public class BoardImpl implements Board {
                 score++;
                 break;
         }
+        return true;
     }
 
     private List<Integer[]> calculateNewPosition(Integer[] location) {
@@ -117,12 +121,12 @@ public class BoardImpl implements Board {
         return State.AVAILABLE;
     }
 
-    private void addToBoard(List<Integer[]> list) {
+    private boolean addToBoard(List<Integer[]> list) {
         for (Integer[] array : list) {
             board[array[1]][array[0]] = spawnedPiece.getType();
         }
         checkFullLine();
-        spawnPiece();
+        return spawnPiece();
     }
 
     private void checkFullLine() {

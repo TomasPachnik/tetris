@@ -8,26 +8,26 @@ public class Main {
         BoardImpl board = new BoardImpl();
 
         Scanner keyboard = new Scanner(System.in);
-        boolean exit = false;
-        while (!exit) {
+        boolean alive = true;
+        while (alive) {
             board.printBoard();
             String input = keyboard.nextLine();
             if (input != null) {
                 if ("p".equals(input)) {
-                    exit = true;
+                    alive = false;
                 } else
                     switch (input) {
                         case "w":
-                            board.move(Input.ROTATE);
+                            alive = board.move(Input.ROTATE);
                             break;
                         case "a":
-                            board.move(Input.LEFT);
+                            alive = board.move(Input.LEFT);
                             break;
                         case "s":
-                            board.move(Input.DOWN);
+                            alive = board.move(Input.DOWN);
                             break;
                         case "d":
-                            board.move(Input.RIGHT);
+                            alive = board.move(Input.RIGHT);
                             break;
                     }
 
