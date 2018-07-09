@@ -95,7 +95,7 @@ class Pieces {
     }
 
     Piece getRandom() {
-        return getPiece(random.nextInt(pieces.size()));
+        return getPiece(random.nextInt(pieces.size()) + 1);
     }
 
 }
