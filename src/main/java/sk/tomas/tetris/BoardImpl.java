@@ -176,9 +176,15 @@ public class BoardImpl implements Board {
                     }
                 }
                 if (found) {
-                    System.out.print(pieceType);
+                    //System.out.print(pieceType);
+                    System.out.print("x");
                 } else {
-                    System.out.print(board[j][i]);
+                    //System.out.print(board[j][i]);
+                    if (board[j][i] > 0) {
+                        System.out.print("x");
+                    } else {
+                        System.out.print(".");
+                    }
                 }
 
             }
