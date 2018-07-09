@@ -11,6 +11,7 @@ public class Main {
         boolean alive = true;
         while (alive) {
             board.printBoard();
+            board.boardInfoLite();
             String input = keyboard.nextLine();
             if (input != null) {
                 if ("p".equals(input)) {

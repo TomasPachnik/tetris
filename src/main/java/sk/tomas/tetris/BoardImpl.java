@@ -50,11 +50,13 @@ public class BoardImpl implements Board {
                 clone = clone(spawnedLocation);
                 clone[1]--;
                 state = calculateNewPosition(clone, false);
+                score++;
                 break;
             case RIGHT:
                 clone = clone(spawnedLocation);
                 clone[1]++;
                 state = calculateNewPosition(clone, false);
+                score++;
                 break;
             case ROTATE:
                 clone = clone(spawnedLocation);
@@ -67,15 +69,16 @@ public class BoardImpl implements Board {
                 clone = clone(spawnedLocation);
                 clone[0]++;
                 state = calculateNewPosition(clone, true);
+                score -= 2;
                 break;
         }
 
         switch (state) {
             case DOWN:
-                score += 10;
                 return addToBoard(calculateNewPosition(spawnedLocation));
             case BLOCKED:
                 //do nothing
+                score -= 2;
                 break;
             default:
             case AVAILABLE:
@@ -125,6 +128,7 @@ public class BoardImpl implements Board {
         for (Integer[] array : list) {
             board[array[1]][array[0]] = spawnedPiece.getType();
         }
+        score += 10;
         checkFullLine();
         return spawnPiece();
     }
@@ -139,6 +143,7 @@ public class BoardImpl implements Board {
                 }
             }
             if (fullLine) {
+                score += 100;
                 for (int k = i; k > 0; k--) {
                     for (int l = 0; l < boardWidth; l++) {
                         board[l][k] = board[l][k - 1];
@@ -195,6 +200,29 @@ public class BoardImpl implements Board {
             }
         }
         return array;
+    }
+
+    @Override
+    public double[] boardInfoLite() {
+        double[] result = new double[14];
+
+        result[0] = (double) spawnedPiece.getType() / 7;
+        result[1] = (double) spawnedLocation[1] / 10;
+        result[2] = (double) spawnedLocation[0] / 10;
+        result[3] = (double) (spawnedLocation[2] % 4) / 4;
+        for (int i = 4; i < result.length; i++) {
+            result[i] = (double) calculateEmptySpaces(i - 4) / 12;
+        }
+        return result;
+    }
+
+    private int calculateEmptySpaces(int line) {
+        for (int i = 0; i < boardHeight; i++) {
+            if (board[line][i] > 0) {
+                return i;
+            }
+        }
+        return 12;
     }
 
 }

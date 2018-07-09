@@ -2,9 +2,11 @@ apply plugin: 'java-library'
 
 repositories {
     jcenter()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
+    compile 'com.github.TomasPachnik:SimpleNeuralNetwork:v0.6'
     testCompile'junit:junit:4.12'
 }
 

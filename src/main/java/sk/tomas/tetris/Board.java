@@ -8,5 +8,7 @@ public interface Board {
 
     int score();
 
-    double [] boardInfo();
+    double[] boardInfo();
+
+    double[] boardInfoLite();
 }
