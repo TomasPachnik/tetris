@@ -11,6 +11,7 @@ public class BoardImpl implements Board {
     private final int boardWidth = 10;
     private final int boardHeight = 12;
     private final int invisibleHeight = 2;
+    private int score;
 
     private Pieces pieces;
 
@@ -22,6 +23,7 @@ public class BoardImpl implements Board {
         board = new int[boardWidth][boardHeight];
         pieces = new Pieces();
         spawnPiece();
+        System.out.println(spawnedPiece.getType());
     }
 
     private void spawnPiece() {
@@ -67,6 +69,7 @@ public class BoardImpl implements Board {
         switch (state) {
             case DOWN:
                 addToBoard(calculateNewPosition(spawnedLocation));
+                score += 10;
                 break;
             case BLOCKED:
                 //do nothing
@@ -74,6 +77,7 @@ public class BoardImpl implements Board {
             default:
             case AVAILABLE:
                 spawnedLocation = clone;
+                score++;
                 break;
         }
     }
@@ -144,7 +148,7 @@ public class BoardImpl implements Board {
     public void printBoard() {
         List<Integer[]> list = calculateNewPosition(spawnedLocation);
 
-        for (int i = invisibleHeight; i < boardHeight; i++) {
+        for (int i = 0; i < boardHeight; i++) {
             for (int j = 0; j < boardWidth; j++) {
                 boolean found = false;
                 for (Integer[] array : list) {
@@ -163,11 +167,30 @@ public class BoardImpl implements Board {
                         System.out.print(".");
                     }
                 }
-
             }
             System.out.println();
         }
         System.out.println();
+    }
+
+    @Override
+    public int score() {
+        return score;
+    }
+
+    @Override
+    public double[] boardInfo() {
+        double[] array = new double[boardWidth * boardHeight];
+        int index = 0;
+        for (int i = 0; i < boardHeight; i++) {
+            for (int j = 0; j < boardWidth; j++) {
+                if (board[j][i] > 0) {
+                    array[index] = 1;
+                }
+                index++;
+            }
+        }
+        return array;
     }
 
 }
