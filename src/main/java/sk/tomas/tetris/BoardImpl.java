@@ -121,8 +121,23 @@ public class BoardImpl implements Board {
         spawnPiece();
     }
 
-    //TODO implement
     private void checkFullLine() {
+
+        for (int i = invisibleHeight; i < boardHeight; i++) {
+            boolean fullLine = true;
+            for (int j = 0; j < boardWidth; j++) {
+                if (board[j][i] == 0) {
+                    fullLine = false;
+                }
+            }
+            if (fullLine) {
+                for (int k = i; k > 0; k--) {
+                    for (int l = 0; l < boardWidth; l++) {
+                        board[l][k] = board[l][k - 1];
+                    }
+                }
+            }
+        }
 
     }
 

@@ -70,13 +70,13 @@ class Pieces {
 
         //all together
         List<Piece> result = new ArrayList<>();
-        result.add(new Piece(zPiece, 0));
-        result.add(new Piece(zReverted, 1));
-        result.add(new Piece(iPiece, 2));
-        result.add(new Piece(lPiece, 3));
-        result.add(new Piece(lReverted, 4));
-        result.add(new Piece(oPiece, 5));
-        result.add(new Piece(tPiece, 6));
+        result.add(new Piece(zPiece, 1));
+        result.add(new Piece(zReverted, 2));
+        result.add(new Piece(iPiece, 3));
+        result.add(new Piece(lPiece, 4));
+        result.add(new Piece(lReverted, 5));
+        result.add(new Piece(oPiece, 6));
+        result.add(new Piece(tPiece, 7));
 
         return result;
     }
