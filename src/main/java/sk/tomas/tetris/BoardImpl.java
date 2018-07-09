@@ -9,14 +9,13 @@ import java.util.List;
 public class BoardImpl implements Board {
 
     private final int boardWidth = 10;
-    private final int boardHeight = 22;
+    private final int boardHeight = 12;
     private final int invisibleHeight = 2;
 
     private Pieces pieces;
 
     private int[][] board;
-    private Integer[][] spawnedPiece;
-    private int pieceType = 0;
+    private Piece spawnedPiece;
     private Integer[] spawnedLocation;
 
     BoardImpl() {
@@ -27,9 +26,8 @@ public class BoardImpl implements Board {
 
     private void spawnPiece() {
         spawnedPiece = pieces.getRandom();
-        pieceType = 0;
         //x axis, y axis, rotation
-        spawnedLocation = new Integer[]{0, (boardWidth / 2) - (spawnedPiece.length / 2), 0};
+        spawnedLocation = new Integer[]{invisibleHeight - 1, (boardWidth / 2) - (spawnedPiece.getPiece().get(0).length / 2), 0};
     }
 
     private Integer[] clone(Integer[] input) {
@@ -83,49 +81,13 @@ public class BoardImpl implements Board {
     private List<Integer[]> calculateNewPosition(Integer[] location) {
         List<Integer[]> array = new ArrayList<>();
 
-        switch (location[2] % 4) {
-            case 0:
-            default:
-                for (int i = 0; i < spawnedPiece.length; i++) {
-                    for (int j = 0; j < spawnedPiece[0].length; j++) {
-                        if (spawnedPiece[i][j] > 0) {
-                            pieceType = spawnedPiece[i][j];
-                            array.add(new Integer[]{location[0] + i, location[1] + j});
-                        }
-                    }
+        Integer[][] temporaryPiece = pieces.rotate(spawnedPiece.getType(), location[2] % 4);
+        for (int i = 0; i < temporaryPiece.length; i++) {
+            for (int j = 0; j < temporaryPiece[0].length; j++) {
+                if (temporaryPiece[i][j] > 0) {
+                    array.add(new Integer[]{location[0] + i, location[1] + j});
                 }
-                break;
-            case 1:
-                for (int j = 0; j < spawnedPiece[0].length; j++) {
-                    for (int i = 0; i < spawnedPiece.length; i++) {
-                        if (spawnedPiece[i][j] > 0) {
-                            pieceType = spawnedPiece[i][j];
-                            array.add(new Integer[]{location[0] + j, location[1] + i});
-                        }
-                    }
-                }
-                break;
-            case 2:
-                for (int i = spawnedPiece[0].length - 1; i >= 0; i--) {
-                    for (int j = 0; j < spawnedPiece.length; j++) {
-                        if (spawnedPiece[i][j] > 0) {
-                            pieceType = spawnedPiece[i][j];
-                            array.add(new Integer[]{location[0] + spawnedPiece[0].length - i - 1, location[1] + j});
-                        }
-                    }
-                }
-                break;
-
-            case 3:
-                for (int j = 0; j < spawnedPiece[0].length; j++) {
-                    for (int i = spawnedPiece[0].length - 1; i >= 0; i--) {
-                        if (spawnedPiece[i][j] > 0) {
-                            pieceType = spawnedPiece[i][j];
-                            array.add(new Integer[]{location[0] + j, location[1] + spawnedPiece[0].length - i - 1});
-                        }
-                    }
-                }
-                break;
+            }
         }
         return array;
     }
@@ -153,7 +115,7 @@ public class BoardImpl implements Board {
 
     private void addToBoard(List<Integer[]> list) {
         for (Integer[] array : list) {
-            board[array[1]][array[0]] = pieceType;
+            board[array[1]][array[0]] = spawnedPiece.getType();
         }
         checkFullLine();
         spawnPiece();
