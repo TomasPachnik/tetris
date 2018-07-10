@@ -69,7 +69,6 @@ public class BoardImpl implements Board {
                 clone = clone(spawnedLocation);
                 clone[0]++;
                 state = calculateNewPosition(clone, true);
-                score -= 2;
                 break;
         }
 
@@ -167,11 +166,15 @@ public class BoardImpl implements Board {
                 }
                 if (found) {
                     //System.out.print(pieceType);
+                    intToColor(spawnedPiece.getType());
                     System.out.print("x");
+                    intToColor(0);
                 } else {
                     //System.out.print(board[j][i]);
                     if (board[j][i] > 0) {
+                        intToColor(board[j][i]);
                         System.out.print("x");
+                        intToColor(0);
                     } else {
                         System.out.print(".");
                     }
@@ -180,6 +183,36 @@ public class BoardImpl implements Board {
             System.out.println();
         }
         System.out.println();
+    }
+
+    private void intToColor(int i) {
+        switch (i) {
+            case 1:
+                System.out.print(ConsoleColors.RED);
+                break;
+            case 2:
+                System.out.print(ConsoleColors.GREEN);
+                break;
+            case 3:
+                System.out.print(ConsoleColors.BLUE);
+                break;
+            case 4:
+                System.out.print(ConsoleColors.CYAN);
+                break;
+            case 5:
+                System.out.print(ConsoleColors.YELLOW);
+                break;
+            case 6:
+                System.out.print(ConsoleColors.PURPLE);
+                break;
+            case 7:
+                System.out.print(ConsoleColors.BLACK);
+                break;
+            case 8:
+            default:
+                System.out.print(ConsoleColors.RESET);
+                break;
+        }
     }
 
     @Override

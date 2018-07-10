@@ -15,7 +15,7 @@ public class RotationTest {
     public void writeTest() throws FileException {
         Strategy strategy = new StrategyImpl();
 
-        Genetic genetic = new GeneticImpl(14, 10, 4, strategy);
+        Genetic genetic = new GeneticImpl(120, 64, 4, strategy);
         //genetic.loadState();
         genetic.setNetworkRuns(10);
         genetic.setGenerations(100);
@@ -27,7 +27,7 @@ public class RotationTest {
 
     @Test
     public void readTest() throws FileException, InterruptedException {
-        Network network = new NetworkImpl(14, 10, 4);
+        Network network = new NetworkImpl(120, 64, 4);
         network.loadState("best");
         Board board = new BoardImpl();
         board.printBoard();

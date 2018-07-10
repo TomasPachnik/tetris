@@ -10,15 +10,19 @@ public class StrategyImpl implements Strategy {
         Board board = new BoardImpl();
         boolean alive = true;
         while (alive) {
-            Input input = Input.map(network.run(board.boardInfoLite()));
-            //System.out.println(input);
+            Input input = Input.map(network.run(board.boardInfo()));
             alive = board.move(input);
-            if (board.score() < -100) {
-              //  System.out.println("slo to tadialto");
+          /*  board.printBoard();
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(board.score());*/
+            if (board.score() < -40) {
                 alive = false;
             }
         }
-
         return board.score();
     }
 }
